@@ -13,5 +13,9 @@ public class Alarm_Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.e("We are in receiver", "Yeah");
+
+        Intent service_intent = new Intent(context,RingtonePlayingService.class);
+
+        context.startService(service_intent);
     }
 }
