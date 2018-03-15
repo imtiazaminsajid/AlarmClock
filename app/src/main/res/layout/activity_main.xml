@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/relative"
     tools:context="com.example.imtiazaminsajid.alarmclock.MainActivity">
 
 
@@ -57,20 +58,17 @@
         android:id="@+id/update_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/alarm_off"
-        android:layout_alignRight="@+id/alarm_off"
         android:layout_below="@+id/alarm_on"
-        android:layout_marginEnd="52dp"
-        android:layout_marginRight="52dp"
-        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
         android:text="Alarm Set on"
         android:textColor="#fc0e4d"
-        android:textSize="35dp"
+        android:textSize="30dp"
         android:textStyle="bold"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="91dp"
-        tools:layout_editor_absoluteY="429dp"
-        />
+        tools:layout_editor_absoluteY="429dp" />
+
 
 
 </RelativeLayout>
