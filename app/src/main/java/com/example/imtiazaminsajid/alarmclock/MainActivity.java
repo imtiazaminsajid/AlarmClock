@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,8 +21,10 @@ public class MainActivity extends AppCompatActivity {
     Button alarmOn, alarmOff;
     AlarmManager alarmManager;
     Context context;
+    Calendar calendar;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,27 +34,43 @@ public class MainActivity extends AppCompatActivity {
 
         this.context = this;
 
-        timePicker = findViewById(R.id.timePicker);
+        timePicker = findViewById(R.id.alarm_timePicker);
         updateMessage = findViewById(R.id.update_message);
         alarmOn = findViewById(R.id.alarm_on);
         alarmOff = findViewById(R.id.alarm_off);
+        calendar = Calendar.getInstance();
 
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        final Calendar calendar = Calendar.getInstance();
 
         alarmOn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
 
+                calendar.get(Calendar.HOUR_OF_DAY);
+                calendar.get(Calendar.MINUTE);
 
 
-                calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-                calendar.set(Calendar.MINUTE, timePicker.getMinute());
+                int hourInt = timePicker.getCurrentHour();
+                int minuteInt = timePicker.getCurrentMinute();
 
-                String hour = String.valueOf(timePicker.getHour());
-                String minute = String.valueOf(timePicker.getMinute());
+                String format;
+                if (hourInt == 0) {
+                    hourInt += 12;
+                    format = "AM";
+                } else if (hourInt == 12) {
+                    format = "PM";
+                } else if (hourInt > 12) {
+                    hourInt -= 12;
+                    format = "PM";
+                } else {
+                    format = "AM";
+                }
+
+                String hour = String.valueOf(hourInt);
+                String minute = String.valueOf(minuteInt);
+
 //
 //
 ////                if (hour>12){
@@ -61,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 ////                    minute_string = "0"+String.valueOf(minute);
 ////                }
 
-                set_alarm_text("Alarm set to: "+hour+" : "+minute);
+                set_alarm_text("Alarm set to: "+hour+" : "+minute+" : "+format);
 
             }
         });
