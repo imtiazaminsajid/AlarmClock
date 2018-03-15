@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
                 set_alarm_text("Alarm set to: "+hour+":"+minute+" "+format);
 
+                intent.putExtra("extra", "alarm on");
+
                 pendingIntent = PendingIntent.getBroadcast(MainActivity.this,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
@@ -100,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
                 set_alarm_text("Alarm Off");
 
                 alarmManager.cancel(pendingIntent);
+
+                intent.putExtra("extra", "alarm off");
+
+                sendBroadcast(intent);
             }
         });
 
