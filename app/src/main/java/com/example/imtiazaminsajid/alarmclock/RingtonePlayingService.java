@@ -1,11 +1,17 @@
 package com.example.imtiazaminsajid.alarmclock;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,6 +30,8 @@ public class RingtonePlayingService extends Service {
         return null;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @SuppressLint("LongLogTag")
     public int onStartCommand(Intent intent, int flag, int startId){
 
@@ -32,6 +40,10 @@ public class RingtonePlayingService extends Service {
         String state = intent.getExtras().getString("extra");
 
         Log.e("Ringtone state:Extra is ", state);
+
+
+
+
         assert state != null;
         switch (state) {
             case "alarm on":
@@ -53,6 +65,24 @@ public class RingtonePlayingService extends Service {
 
             this.isRunning = true;
             this.startId = 0;
+
+
+            Intent intent_main_activity = new Intent(this.getApplicationContext(), MainActivity.class);
+
+            PendingIntent pendingIntent_main_activity = PendingIntent.getActivity(this, 0, intent_main_activity, 0);
+
+
+            Notification notification = new Notification.Builder(this)
+                    .setContentTitle("An Alarm Going Off!")
+                    .setContentText("Click Here")
+                    .setContentIntent(pendingIntent_main_activity)
+                    .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .build();
+
+            NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+            notificationManager.notify(0, notification);
         }
         else if (this.isRunning && startId == 0){
 
