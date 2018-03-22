@@ -66,7 +66,7 @@ public class RingtonePlayingService extends Service {
             this.isRunning = true;
             this.startId = 0;
 
-
+            NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
             Intent intent_main_activity = new Intent(this.getApplicationContext(), MainActivity.class);
 
             PendingIntent pendingIntent_main_activity = PendingIntent.getActivity(this, 0, intent_main_activity, 0);
@@ -79,8 +79,6 @@ public class RingtonePlayingService extends Service {
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .build();
-
-            NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
             notificationManager.notify(0, notification);
         }
