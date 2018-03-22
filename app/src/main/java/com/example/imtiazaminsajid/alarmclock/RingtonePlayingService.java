@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class RingtonePlayingService extends Service {
     MediaPlayer mediaPlayer;
     int startId;
+    boolean isRunning;
 
     @Nullable
     @Override
@@ -44,13 +45,46 @@ public class RingtonePlayingService extends Service {
                 break;
         }
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
-        mediaPlayer.start();
+
+        if (!this.isRunning && startId == 1){
+
+            mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
+            mediaPlayer.start();
+
+            this.isRunning = true;
+            this.startId = 0;
+        }
+        else if (this.isRunning && startId == 0){
+
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+
+            this.isRunning = false;
+            this.startId = 0;
+
+        }
+        else if (!this.isRunning && startId == 0){
+
+            this.isRunning = false;
+            this.startId = 0;
+
+        }
+        else if (this.isRunning && startId == 1){
+            this.isRunning = true;
+            this.startId = 1;
+
+        }
+        else {
+
+        }
 
         return START_NOT_STICKY;
     }
 
     public void onDestroy(){
+
+        super.onDestroy();
+        this.isRunning = false;
         Toast.makeText(this, "On Distroy Called", Toast.LENGTH_SHORT).show();
     }
 }
